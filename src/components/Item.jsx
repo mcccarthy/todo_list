@@ -1,11 +1,12 @@
-function Item({ item }) {
+function Item({ handleToggleItem, item, handleDeleteItem }) {
     return (
         <li>
             <label>
                 <input
                     type='checkbox'
                     className='form-check-input'
-                    defaultChecked={item.completed}
+                    checked={item.completed}
+                    onChange={() => handleToggleItem(item.title)}
                     style={{
                         border: '1px solid #FFFF00',
                         borderRadius: '50%'
@@ -13,7 +14,11 @@ function Item({ item }) {
                 />
                 {item.title}
             </label>
-            <button className='btn btn-sm btn-outline-danger'>Delete</button>
+            <button
+                onClick={() => handleDeleteItem(item.title)}
+                className='btn btn-sm btn-outline-danger'>
+                Delete
+            </button>
         </li>
     );
 }

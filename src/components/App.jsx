@@ -28,6 +28,18 @@ function App() {
         setItems((prevItems) => prevItems.map((item) => ({ ...item, completed: true })));
     };
 
+    const handleToggleItem = (title) => {
+        setItems((prevItems) =>
+            prevItems.map((item) =>
+                item.title === title ? { ...item, completed: !item.completed } : item
+            )
+        );
+    };
+
+    const handleDeleteItem = (title) => {
+        setItems((prevItems) => prevItems.filter((item) => item.title !== title));
+    };
+
     return (
         <div className='container'>
             <div className='row'>
@@ -43,7 +55,11 @@ function App() {
                 <div className='col-8'>
                     <Counter />
                     <Select />
-                    <ItemList items={items} />
+                    <ItemList
+                        handleToggleItem={handleToggleItem}
+                        items={items}
+                        handleDeleteItem={handleDeleteItem}
+                    />
                 </div>
                 <div className='col-4'>
                     <AddTask handleAddItem={handleAddItem} />

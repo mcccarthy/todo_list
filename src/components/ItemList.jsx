@@ -1,6 +1,6 @@
 import Item from './Item';
 
-function ItemList({ items }) {
+function ItemList({ handleToggleItem, handleDeleteItem, items }) {
     // eslint-disable-next-line no-unused-vars
 
     return (
@@ -10,6 +10,8 @@ function ItemList({ items }) {
                     <Item
                         key={index}
                         item={item}
+                        handleToggleItem={handleToggleItem}
+                        handleDeleteItem={handleDeleteItem}
                     />
                 ))}
             </ul>
