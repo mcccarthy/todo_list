@@ -1,9 +1,9 @@
-function Counter() {
+function Counter({ completedNumber, totalNumber }) {
     return (
         <h5
             style={{ color: '#FFFF00' }}
-            className='text-end yellow'>
-            Done: 1/3
+            className='text-center'>
+            Done: {completedNumber} / {totalNumber}
         </h5>
     );
 }

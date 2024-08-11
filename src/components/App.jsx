@@ -2,7 +2,6 @@ import AddTask from './AddTask';
 import ButtonGroup from './ButtonGroup';
 import Counter from './Counter';
 import ItemList from './ItemList';
-import Select from './Select';
 import { LuListTodo } from 'react-icons/lu';
 import { useState } from 'react';
 import { initialItems } from '../lib/items';
@@ -40,6 +39,9 @@ function App() {
         setItems((prevItems) => prevItems.filter((item) => item.title !== title));
     };
 
+    const completedNumber = items.filter((item) => item.completed).length;
+    const totalNumber = items.length;
+
     return (
         <div className='container'>
             <div className='row'>
@@ -52,9 +54,12 @@ function App() {
                     2 Do List
                 </h1>
 
-                <div className='col-8'>
-                    <Counter />
-                    <Select />
+                <div className='col-8 '>
+                    <Counter
+                        completedNumber={completedNumber}
+                        totalNumber={totalNumber}
+                    />
+
                     <ItemList
                         handleToggleItem={handleToggleItem}
                         items={items}

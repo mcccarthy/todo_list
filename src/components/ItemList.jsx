@@ -1,21 +1,44 @@
+import { useState } from 'react';
 import Item from './Item';
 
 function ItemList({ handleToggleItem, handleDeleteItem, items }) {
-    // eslint-disable-next-line no-unused-vars
+    const [sortBy, setSortBy] = useState('default');
+
+    const handleSelect = (e) => {
+        setSortBy(e.target.value);
+    };
+
+    const sortedItems = [...items].sort((a, b) => {
+        if (sortBy === 'completed') {
+            return b.completed - a.completed;
+        } else if (sortBy === 'notCompleted') {
+            return a.completed - b.completed;
+        }
+    });
 
     return (
-        <div className='form-check'>
-            <ul>
-                {items.map((item, index) => (
-                    <Item
-                        key={index}
-                        item={item}
-                        handleToggleItem={handleToggleItem}
-                        handleDeleteItem={handleDeleteItem}
-                    />
-                ))}
-            </ul>
-        </div>
+        <>
+            <select
+                className='form-control mb-4 text-center'
+                onChange={handleSelect}>
+                <option value='default'>Default</option>
+                <option value='completed'>Completed</option>
+                <option value='notCompleted'>Not Completed</option>
+            </select>
+            <div className='form-check'>
+                {items.length === 0 && <p className='text-center'>Nothing to do....</p>}
+                <ul>
+                    {sortedItems.map((item, index) => (
+                        <Item
+                            key={index}
+                            item={item}
+                            handleToggleItem={handleToggleItem}
+                            handleDeleteItem={handleDeleteItem}
+                        />
+                    ))}
+                </ul>
+            </div>
+        </>
     );
 }
 
