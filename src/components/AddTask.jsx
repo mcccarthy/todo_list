@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 
-function AddTask({ setItems }) {
+function AddTask({ handleAddItem }) {
     const [itemText, setItemText] = useState('');
     const inputRef = useRef();
 
@@ -11,7 +11,11 @@ function AddTask({ setItems }) {
             inputRef.current.focus();
             return;
         }
-        setItems((prev) => [...prev, { title: itemText, completed: false }]);
+
+        handleAddItem({
+            title: itemText,
+            completed: false
+        });
         setItemText('');
     };
 

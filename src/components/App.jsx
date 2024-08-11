@@ -9,6 +9,11 @@ import { initialItems } from '../lib/items';
 
 function App() {
     const [items, setItems] = useState(initialItems);
+
+    const handleAddItem = (newItem) => {
+        setItems((prevItems) => [...prevItems, newItem]);
+    };
+
     return (
         <div className='container'>
             <div className='row'>
@@ -18,7 +23,7 @@ function App() {
                         color={'#FFFF00'}
                         // style={{ marginRight: '100px', padding: '5px' }}
                     />
-                    Todo List
+                    2 Do List
                 </h1>
 
                 <div className='col-8'>
@@ -27,7 +32,7 @@ function App() {
                     <ItemList items={items} />
                 </div>
                 <div className='col-4'>
-                    <AddTask setItems={setItems} />
+                    <AddTask handleAddItem={handleAddItem} />
                     <ButtonGroup />
                 </div>
             </div>

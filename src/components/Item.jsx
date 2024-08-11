@@ -6,6 +6,10 @@ function Item({ item }) {
                     type='checkbox'
                     className='form-check-input'
                     defaultChecked={item.completed}
+                    style={{
+                        border: '1px solid #FFFF00',
+                        borderRadius: '4px'
+                    }}
                 />
                 {item.title}
             </label>
