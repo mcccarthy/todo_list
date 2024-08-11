@@ -3,11 +3,21 @@ import ButtonGroup from './ButtonGroup';
 import Counter from './Counter';
 import ItemList from './ItemList';
 import { LuListTodo } from 'react-icons/lu';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { initialItems } from '../lib/items';
 
 function App() {
-    const [items, setItems] = useState(initialItems);
+    const itemsFromLocalStorage = () => {
+        try {
+            const storedItems = localStorage.getItem('items');
+            return storedItems ? JSON.parse(storedItems) : null;
+        } catch (error) {
+            console.error('Error parsing local storage items:', error);
+            return null;
+        }
+    };
+
+    const [items, setItems] = useState(() => itemsFromLocalStorage() || initialItems);
 
     const handleAddItem = (newItem) => {
         setItems((prevItems) => [...prevItems, newItem]);
@@ -16,15 +26,13 @@ function App() {
     const handleRemoveAllItems = () => {
         setItems([]);
     };
+
     const handleReset = () => {
         setItems(initialItems);
     };
 
-    const handleMarkAllAsIncomplete = () => {
-        setItems((prevItems) => prevItems.map((item) => ({ ...item, completed: false })));
-    };
-    const handleMarkAllAsCompleted = () => {
-        setItems((prevItems) => prevItems.map((item) => ({ ...item, completed: true })));
+    const handleMarkAll = (completed) => {
+        setItems((prevItems) => prevItems.map((item) => ({ ...item, completed })));
     };
 
     const handleToggleItem = (title) => {
@@ -42,6 +50,10 @@ function App() {
     const completedNumber = items.filter((item) => item.completed).length;
     const totalNumber = items.length;
 
+    useEffect(() => {
+        localStorage.setItem('items', JSON.stringify(items));
+    }, [items]);
+
     return (
         <div className='container'>
             <div className='row'>
@@ -49,17 +61,17 @@ function App() {
                     <LuListTodo
                         size={60}
                         color={'#FFFF00'}
-                        // style={{ marginRight: '100px', padding: '5px' }}
                     />
                     2 Do List
                 </h1>
 
-                <div className='col-8 '>
-                    <Counter
-                        completedNumber={completedNumber}
-                        totalNumber={totalNumber}
-                    />
-
+                <div className='col-8 d-flex flex-column'>
+                    <div className='text-center'>
+                        <Counter
+                            completedNumber={completedNumber}
+                            totalNumber={totalNumber}
+                        />
+                    </div>
                     <ItemList
                         handleToggleItem={handleToggleItem}
                         items={items}
@@ -71,8 +83,8 @@ function App() {
                     <ButtonGroup
                         handleRemoveAllItems={handleRemoveAllItems}
                         handleReset={handleReset}
-                        handleMarkAllAsIncomplete={handleMarkAllAsIncomplete}
-                        handleMarkAllAsCompleted={handleMarkAllAsCompleted}
+                        handleMarkAllAsIncomplete={() => handleMarkAll(false)}
+                        handleMarkAllAsCompleted={() => handleMarkAll(true)}
                     />
                 </div>
             </div>

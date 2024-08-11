@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Item from './Item';
 
 function ItemList({ handleToggleItem, handleDeleteItem, items }) {
@@ -8,19 +8,23 @@ function ItemList({ handleToggleItem, handleDeleteItem, items }) {
         setSortBy(e.target.value);
     };
 
-    const sortedItems = [...items].sort((a, b) => {
-        if (sortBy === 'completed') {
-            return b.completed - a.completed;
-        } else if (sortBy === 'notCompleted') {
-            return a.completed - b.completed;
-        }
-    });
+    const sortedItems = useMemo(() => {
+        return [...items].sort((a, b) => {
+            if (sortBy === 'completed') {
+                return b.completed - a.completed;
+            } else if (sortBy === 'notCompleted') {
+                return a.completed - b.completed;
+            }
+            return 0;
+        });
+    }, [items, sortBy]);
 
     return (
         <>
             <select
                 className='form-control mb-4 text-center'
-                onChange={handleSelect}>
+                onChange={handleSelect}
+                value={sortBy}>
                 <option value='default'>Default</option>
                 <option value='completed'>Completed</option>
                 <option value='notCompleted'>Not Completed</option>
