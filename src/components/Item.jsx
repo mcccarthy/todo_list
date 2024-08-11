@@ -8,7 +8,7 @@ function Item({ item }) {
                     defaultChecked={item.completed}
                     style={{
                         border: '1px solid #FFFF00',
-                        borderRadius: '4px'
+                        borderRadius: '50%'
                     }}
                 />
                 {item.title}

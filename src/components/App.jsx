@@ -14,10 +14,24 @@ function App() {
         setItems((prevItems) => [...prevItems, newItem]);
     };
 
+    const handleRemoveAllItems = () => {
+        setItems([]);
+    };
+    const handleReset = () => {
+        setItems(initialItems);
+    };
+
+    const handleMarkAllAsIncomplete = () => {
+        setItems((prevItems) => prevItems.map((item) => ({ ...item, completed: false })));
+    };
+    const handleMarkAllAsCompleted = () => {
+        setItems((prevItems) => prevItems.map((item) => ({ ...item, completed: true })));
+    };
+
     return (
         <div className='container'>
             <div className='row'>
-                <h1 className='d-flex justify-content-evenly  align-items-center"'>
+                <h1 className='d-flex align-items-center justify-content-evenly'>
                     <LuListTodo
                         size={60}
                         color={'#FFFF00'}
@@ -33,7 +47,12 @@ function App() {
                 </div>
                 <div className='col-4'>
                     <AddTask handleAddItem={handleAddItem} />
-                    <ButtonGroup />
+                    <ButtonGroup
+                        handleRemoveAllItems={handleRemoveAllItems}
+                        handleReset={handleReset}
+                        handleMarkAllAsIncomplete={handleMarkAllAsIncomplete}
+                        handleMarkAllAsCompleted={handleMarkAllAsCompleted}
+                    />
                 </div>
             </div>
         </div>
